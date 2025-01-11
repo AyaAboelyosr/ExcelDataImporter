@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div class="d-flex justify-content-center mt-4">
+    <div class="card m-2" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">Upload Excel</h5>
+            <p class="card-text">Upload an Excel file to import product data into the system.</p>
+            <a asp-controller="Product" asp-action="Index" class="btn btn-primary">Go to Upload</a>
+        </div>
+    </div>
+
+    <div class="card m-2" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">View Products</h5>
+            <p class="card-text">View the list of imported products and manage them easily.</p>
+            <a asp-controller="Product" asp-action="GetProducts" class="btn btn-success">Go to Products</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+﻿@model ProductListViewModel
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h2>Products</h2>
+
+<form method="get" asp-action="GetProducts">
+    <input type="text" name="searchTerm" value="@Model.SearchTerm" placeholder="Search..." />
+    <button type="submit">Search</button>
+</form>
+
+@if (Model.Products.Count == 0)
+{
+    <p>No products found for the search term: <strong>@Model.SearchTerm</strong></p>
+}
+
+<table id="productTable" class="display">
+    <thead>
+        <tr>
+            <th>Band #</th>
+            <th>Category Code</th>
+            <th>Manufacturer</th>
+            <th>Part SKU</th>
+            <th>Item Description</th>
+            <th>List Price</th>
+            <th>Min Discount</th>
+            <th>Discount Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+                <td>@product.Band</td>
+                <td>@product.CategoryCode</td>
+                <td>@product.Manufacturer</td>
+                <td>@product.PartSKU</td>
+                <td>@product.ItemDescription</td>
+                <td>@product.ListPrice</td>
+                <td>@product.MinDiscount</td>
+                <td>@product.DiscountPrice</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <ul class="pagination">
+        <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+            <a class="page-link" href="@Url.Action("GetProducts", new { page = 1, searchTerm = Model.SearchTerm })">First</a>
+        </li>
+        <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+            <a class="page-link" href="@Url.Action("GetProducts", new { page = Model.CurrentPage - 1, searchTerm = Model.SearchTerm })">Previous</a>
+        </li>
+        <li class="page-item active">
+            <span class="page-link">@Model.CurrentPage</span>
+        </li>
+        <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+            <a class="page-link" href="@Url.Action("GetProducts", new { page = Model.CurrentPage + 1, searchTerm = Model.SearchTerm })">Next</a>
+        </li>
+       
+    </ul>
+</div>
+
+<form method="post" asp-action="ExportToExcel">
+    <input type="hidden" name="searchTerm" value="@Model.SearchTerm" />
+    <button type="submit">Export to Excel</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#productTable').DataTable({
+            "paging": false,
+            "searching": false,
+            "info": false,
+            "ordering": true
+        });
+    });
+</script>
